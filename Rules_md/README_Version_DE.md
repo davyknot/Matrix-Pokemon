@@ -138,7 +138,7 @@ Pokémon bewegen sich wie die **Dame im Schach**:
 ```
          ↖  ↑  ↗
           \ | /
-    ← ←  [🔥]  → →
+      ← ←  [🔥]  → →
           / | \
          ↙  ↓  ↘
 
