@@ -138,7 +138,7 @@ Pokémon move like the **Queen in chess**:
 ```
           ↖  ↑  ↗
            \ | /
-    ← ←   [🔥]   → →
+      ← ←   [🔥]   → →
            / | \
           ↙  ↓  ↘
 
