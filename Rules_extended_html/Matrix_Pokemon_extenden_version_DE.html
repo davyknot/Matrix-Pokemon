@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Pokémon – Erweiterte Edition Spielanleitung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@400;600;700&family=Kanit:wght@800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pk-yellow:    #FFCB05;
+            --pk-blue:      #2A75BB;
+            --pk-red:       #EE1515;
+            --pk-dark-blue: #3C5AA6;
+            --matrix-green: #00FF41;
+            --matrix-dark:  #0D0208;
+            --matrix-glow:  rgba(0, 255, 65, 0.4);
+            --pokedex-red:  #cc0000;
+            --text-light:   #f4f4f9;
+            --glass:        rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--matrix-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 65, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* ─── HEADER ─────────────────────────────────────── */
+        header {
+            background: linear-gradient(180deg, var(--pokedex-red) 0%, #700 100%);
+            padding: 4rem 1rem 3rem;
+            text-align: center;
+            border-bottom: 12px solid #500;
+            position: relative;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.95);
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 38px,
+                rgba(0,0,0,0.15) 38px, rgba(0,0,0,0.15) 40px
+            );
+            pointer-events: none;
+        }
+        .hero-img {
+            width: 100%; max-height: 420px; object-fit: cover;
+            border-radius: 12px; margin-bottom: 2rem;
+            border: 4px solid var(--pk-yellow);
+            box-shadow: 0 0 40px rgba(255,203,5,0.4);
+        }
+        header h1 {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            margin: 0;
+            color: var(--pk-yellow);
+            text-shadow: 5px 5px var(--pk-blue), 10px 10px rgba(0,0,0,0.6);
+            letter-spacing: 8px;
+            line-height: 1;
+        }
+        .header-sub {
+            font-family: 'Share Tech Mono', monospace;
+            color: rgba(255,255,255,0.75);
+            font-size: clamp(0.8rem, 2vw, 1.1rem);
+            margin-top: 1rem;
+            letter-spacing: 3px;
+        }
+        .badge-row {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 1.5rem;
+        }
+        .badge {
+            background: rgba(0,0,0,0.5); border: 2px solid var(--pk-yellow); border-radius: 30px;
+            padding: 6px 18px; font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem; color: var(--pk-yellow);
+        }
+
+        /* ─── CONTAINER ──────────────────────────────────── */
+        .container { max-width: 1200px; margin: 4rem auto; padding: 0 2rem; }
+
+        /* ─── DATA BAR ───────────────────────────────────── */
+        .data-bar {
+            background: #111; border: 3px solid #333; border-radius: 15px;
+            padding: 2rem; margin-bottom: 4rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.5rem;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        .data-item label {
+            display: block; font-family: 'Share Tech Mono', monospace;
+            color: #666; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 4px;
+        }
+        .data-item span {
+            font-family: 'Kanit', sans-serif; font-size: 1.6rem;
+            color: var(--pk-yellow); font-weight: 800;
+        }
+
+        /* ─── TABLE OF CONTENTS ──────────────────────────── */
+        .toc {
+            background: rgba(42,117,187,0.12); border: 2px solid var(--pk-blue);
+            border-radius: 16px; padding: 2rem; margin-bottom: 4rem;
+        }
+        .toc h2 {
+            font-family: 'Kanit', sans-serif; color: var(--pk-yellow);
+            margin-top: 0; font-size: 1.8rem; letter-spacing: 2px;
+        }
+        .toc ol { columns: 2; column-gap: 2rem; padding-left: 1.5rem; margin: 0; }
+        .toc li { margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); font-size: 1rem; }
+        .toc a { color: var(--matrix-green); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+
+        /* ─── CHAPTERS ───────────────────────────────────── */
+        .chapter { margin-bottom: 7rem; scroll-margin-top: 2rem; }
+        .chapter-header { display: flex; align-items: center; gap: 20px; margin-bottom: 2rem; }
+        .chapter-num {
+            background: var(--pk-yellow); color: black; font-family: 'Bangers', cursive; font-size: 2.8rem;
+            min-width: 75px; height: 75px; display: flex; align-items: center; justify-content: center;
+            border-radius: 14px; border: 4px solid white; box-shadow: 5px 5px 0 var(--pk-blue);
+            flex-shrink: 0;
+        }
+        .chapter-title {
+            font-family: 'Kanit', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: white; text-transform: uppercase;
+            border-bottom: 5px solid var(--matrix-green); padding-bottom: 8px; flex-grow: 1;
+        }
+
+        /* ─── CARDS / PANELS ─────────────────────────────── */
+        .info-card {
+            background: var(--glass); backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 65, 0.2);
+            border-radius: 20px; padding: 2.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .info-card p { line-height: 1.8; font-size: 1.05rem; }
+        .info-card h3 { color: var(--pk-yellow); font-family: 'Kanit', sans-serif; font-size: 1.6rem; margin-top: 2rem; }
+        .info-card h4 { color: var(--matrix-green); margin-top: 1.5rem; }
+        .info-card ul, .info-card ol { line-height: 2; font-size: 1.05rem; }
+
+        /* ─── PHOTO CONTAINERS ───────────────────────────── */
+        .photo-block {
+            margin: 2rem 0; display: grid; gap: 16px;
+        }
+        .photo-block.single { grid-template-columns: 1fr; }
+        .photo-block.dual   { grid-template-columns: 1fr 1fr; }
+        .photo-block.triple { grid-template-columns: 1fr 1fr 1fr; }
+        @media(max-width: 700px) {
+            .photo-block.dual, .photo-block.triple { grid-template-columns: 1fr; }
+        }
+        .photo-frame {
+            border-radius: 12px; overflow: hidden; border: 3px solid rgba(255,203,5,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6); background: #111;
+        }
+        .photo-frame img {
+            width: 100%; display: block; object-fit: cover; max-height: 400px;
+        }
+        .photo-caption {
+            padding: 10px 14px; font-family: 'Share Tech Mono', monospace;
+            font-size: 0.82rem; color: var(--matrix-green);
+            background: rgba(0,0,0,0.7); border-top: 1px solid rgba(0,255,65,0.2);
+        }
+
+        /* ─── MATRIX VISUALIZER ──────────────────────────── */
+        .matrix-viz {
+            display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px;
+            background: rgba(0,0,0,0.6); padding: 18px; border-radius: 14px;
+            border: 2px solid var(--matrix-green); margin: 1.5rem 0;
+        }
+        .matrix-cell {
+            aspect-ratio: 2/3; background: var(--pk-blue); border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .matrix-cell.revealed { background: var(--pk-yellow); }
+        .matrix-cell.prize    { background: var(--pokedex-red); }
+        .matrix-cell.active   { background: var(--matrix-green); }
+
+        /* ─── MOVEMENT DIAGRAM ───────────────────────────── */
+        .move-diagram {
+            display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; margin: 1.5rem 0;
+        }
+        .move-grid {
+            display: grid; grid-template-columns: repeat(9, 42px); gap: 4px;
+            background: #000; padding: 12px; border-radius: 10px;
+            border: 2px solid var(--pk-yellow); width: fit-content;
+        }
+        .move-cell {
+            width: 42px; height: 42px; display: flex; align-items: center;
+            justify-content: center; border-radius: 5px;
+            font-family: 'Bangers', cursive; font-size: 1rem;
+        }
+        .m-possible { background: rgba(0, 255, 65, 0.2); border: 1px solid var(--matrix-green); color: var(--matrix-green); }
+        .m-pkm      { background: var(--pk-red); border: 2px solid white; color: white; font-size: 1.3rem; }
+        .m-wall     { background: #1a1a1a; border: 1px solid #333; color: #444; }
+        .m-empty    { background: #111; border: 1px solid #222; }
+        .move-legend { flex: 1; min-width: 200px; }
+        .move-legend h4 { color: var(--pk-yellow); margin-top: 0; }
+        .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.95rem; }
+        .legend-dot { width: 24px; height: 24px; border-radius: 4px; flex-shrink: 0; }
+
+        /* ─── COMBAT CONSOLE ─────────────────────────────── */
+        .combat-console {
+            background: #000; border: 4px solid var(--matrix-green); padding: 2.5rem;
+            border-radius: 20px; box-shadow: 0 0 40px var(--matrix-glow); margin: 2rem 0;
+        }
+        .formula {
+            font-family: 'Share Tech Mono', monospace; font-size: clamp(1.1rem, 3vw, 1.8rem);
+            text-align: center; color: white; text-shadow: 0 0 15px var(--matrix-green);
+            background: rgba(0,255,65,0.05); padding: 1rem; border-radius: 8px;
+            border: 1px solid rgba(0,255,65,0.3); margin-bottom: 1.5rem; word-break: break-word;
+        }
+        .row-chart { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin: 1.5rem 0; }
+        .row-item {
+            padding: 1rem 0.5rem; text-align: center; border-radius: 10px;
+            font-family: 'Kanit', sans-serif; font-size: 1.2rem; font-weight: 800;
+        }
+
+        /* ─── TABLES ─────────────────────────────────────── */
+        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin: 1.5rem 0; }
+        th {
+            background: var(--pk-blue); color: white; padding: 1.2rem 1.5rem;
+            text-align: left; font-family: 'Kanit', sans-serif; text-transform: uppercase;
+        }
+        td { background: rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; }
+        tr td:first-child { border-left: 4px solid var(--pk-yellow); }
+        .highlight { color: var(--pk-yellow); font-weight: bold; }
+        .hl-green  { color: var(--matrix-green); font-weight: bold; }
+        .hl-red    { color: var(--pk-red); font-weight: bold; }
+
+        /* ─── PRIZE VISUAL ───────────────────────────────── */
+        .prize-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 1rem 0; }
+        .prize-card {
+            width: 38px; height: 54px; background: var(--pokedex-red);
+            border: 2px solid var(--pk-yellow); border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--pk-yellow); font-weight: bold; font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .prize-card.won { background: var(--matrix-green); border-color: white; color: black; }
+
+        /* ─── STEP BOXES ─────────────────────────────────── */
+        .steps { counter-reset: step; }
+        .step-box {
+            display: flex; gap: 1.5rem; margin-bottom: 1.5rem; align-items: flex-start;
+        }
+        .step-num {
+            counter-increment: step; min-width: 48px; height: 48px;
+            background: var(--pk-yellow); color: black;
+            font-family: 'Bangers', cursive; font-size: 1.8rem;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 3px 3px 0 var(--pk-blue); flex-shrink: 0;
+        }
+        .step-num::before { content: counter(step); }
+        .step-content { flex: 1; }
+        .step-content strong { color: var(--pk-yellow); }
+
+        /* ─── CALLOUT BOXES ──────────────────────────────── */
+        .info-box    { background: rgba(42,117,187,0.2); border-left: 5px solid var(--pk-blue); padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+        .warning-box { background: rgba(238,21,21,0.12); border-left: 5px solid var(--pk-red); padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+        .tip-box     { background: rgba(0,255,65,0.08); border-left: 5px solid var(--matrix-green); padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+        .tip-box strong, .info-box strong, .warning-box strong { display: block; margin-bottom: 4px; }
+
+        /* ─── STRATEGY GRID ──────────────────────────────── */
+        .strategy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 2rem; }
+        .strategy-card {
+            background: rgba(255,255,255,0.05); border-left: 5px solid var(--pk-yellow);
+            padding: 1.5rem; border-radius: 0 14px 14px 0;
+        }
+        .strategy-card h4 { color: var(--pk-yellow); margin-top: 0; font-family: 'Kanit', sans-serif; text-transform: uppercase; font-size: 1.2rem; }
+        .strategy-card p  { margin: 0; font-size: 0.95rem; line-height: 1.7; }
+
+        /* ─── QUICK REFERENCE ────────────────────────────── */
+        .qr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1.5rem; }
+        .qr-box  {
+            background: #111; border: 2px solid var(--pk-blue); border-radius: 12px; padding: 1.2rem;
+            text-align: center;
+        }
+        .qr-box .qr-icon { font-size: 2.5rem; line-height: 1; }
+        .qr-box .qr-label { font-family: 'Kanit', sans-serif; font-size: 1.2rem; color: var(--pk-yellow); margin: 8px 0 4px; }
+        .qr-box .qr-val   { font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+
+        /* ─── LORE / STORY SECTION ───────────────────────── */
+        .lore-section {
+            background: linear-gradient(135deg, rgba(42,117,187,0.15), rgba(238,21,21,0.08));
+            border: 2px solid rgba(255,203,5,0.3); border-radius: 20px; padding: 2.5rem;
+            position: relative; overflow: hidden;
+        }
+        .lore-section::before {
+            content: '< / >'; position: absolute; right: 2rem; top: 1rem;
+            font-family: 'Bangers', cursive; font-size: 8rem; color: rgba(0,255,65,0.05);
+            line-height: 1; pointer-events: none;
+        }
+        .lore-section h3 { color: var(--pk-yellow); font-family: 'Kanit', sans-serif; font-size: 1.5rem; }
+        .lore-section blockquote {
+            border-left: 4px solid var(--matrix-green); padding-left: 1.5rem;
+            color: rgba(255,255,255,0.85); font-style: italic; margin: 1rem 0;
+        }
+        .code-block {
+            background: #000; border: 1px solid var(--matrix-green); border-radius: 8px;
+            padding: 1rem 1.5rem; font-family: 'Share Tech Mono', monospace;
+            font-size: 0.88rem; color: var(--matrix-green); margin: 1rem 0;
+            white-space: pre-wrap; overflow-x: auto;
+        }
+
+        /* ─── DESIGN DECISIONS ───────────────────────────── */
+        .decision-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;
+        }
+        .decision-card .decision-id {
+            font-family: 'Share Tech Mono', monospace; color: var(--matrix-green);
+            font-size: 0.85rem; margin-bottom: 6px;
+        }
+        .decision-card h4 { color: var(--pk-yellow); margin: 0 0 8px; font-family: 'Kanit', sans-serif; font-size: 1.2rem; }
+        .decision-card .tag-problem { color: var(--pk-red); font-weight: bold; }
+        .decision-card .tag-decision { color: var(--matrix-green); font-weight: bold; }
+
+        /* ─── OFFICIAL NOTE ──────────────────────────────── */
+        .official-note {
+            background: #fff9c4; border: 2px solid var(--pk-yellow); color: #333;
+            padding: 1.2rem 1.5rem; border-radius: 12px; margin: 1.5rem 0;
+            font-size: 0.95rem; line-height: 1.7;
+        }
+
+        /* ─── SNAKE PATTERN ──────────────────────────────── */
+        .snake-demo {
+            font-family: 'Share Tech Mono', monospace; font-size: 0.9rem;
+            color: var(--matrix-green); background: #000;
+            border: 1px dashed var(--matrix-green); padding: 1.2rem;
+            border-radius: 8px; margin: 1rem 0; text-align: center;
+        }
+
+        /* ─── FOOTER ─────────────────────────────────────── */
+        footer {
+            background: #111; padding: 4rem 1rem 3rem;
+            text-align: center; border-top: 10px solid var(--pokedex-red); margin-top: 8rem;
+        }
+        .footer-logo { font-family: 'Bangers', cursive; font-size: 3.5rem; color: var(--pk-yellow); letter-spacing: 6px; }
+        footer p { color: #555; font-size: 0.9rem; margin: 0.5rem 0; }
+
+        /* ─── DIVIDER ────────────────────────────────────── */
+        .divider {
+            border: none; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--matrix-green), transparent);
+            margin: 2rem 0;
+        }
+
+        /* ─── CONCEPT ART ────────────────────────────────── */
+        .concept-wrap { text-align: center; margin: 2rem 0; }
+        .concept-wrap img {
+            max-width: 100%; max-height: 500px; object-fit: contain;
+            border-radius: 12px; border: 3px solid rgba(0,255,65,0.4);
+            box-shadow: 0 0 40px rgba(0,255,65,0.15);
+        }
+
+        @media (max-width: 600px) {
+            .toc ol { columns: 1; }
+            .move-grid { grid-template-columns: repeat(5, 36px); }
+            .move-cell { width: 36px; height: 36px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════ HEADER ══ -->
+<header>
+    <img class="hero-img" src="selected_fotos/MATRIX POKEMON.JPG" alt="Matrix Pokémon – Echtes Spiel in Aktion">
+    <h1>MATRIX POKÉMON</h1>
+    <p class="header-sub">&gt;_ ERWEITERTE EDITION // STRATEGIE-HANDBUCH & BILDANLEITUNG // v1.0</p>
+    <div class="badge-row">
+        <span class="badge">👥 2 Spieler</span>
+        <span class="badge">🎂 Ab 6 Jahren</span>
+        <span class="badge">⏱ 20–45 Min.</span>
+        <span class="badge">🃏 60-Karten-Deck</span>
+        <span class="badge">🌐 CC BY-NC-SA 4.0</span>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- DATA BAR -->
+    <div class="data-bar">
+        <div class="data-item"><label>Spieltyp</label><span>TCG + SCHACH</span></div>
+        <div class="data-item"><label>Rastergröße</label><span>9 × 6</span></div>
+        <div class="data-item"><label>Preiskarten</label><span>6 ZUM SIEG</span></div>
+        <div class="data-item"><label>Bewegung</label><span>DAME-STIL</span></div>
+        <div class="data-item"><label>Version</label><span>0A / 2026</span></div>
+    </div>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc">
+        <h2>📋 Inhaltsverzeichnis</h2>
+        <ol>
+            <li><a href="#ch01">Was ist Matrix Pokémon?</a></li>
+            <li><a href="#ch02">Was du brauchst</a></li>
+            <li><a href="#ch03">Spielaufbau</a></li>
+            <li><a href="#ch04">Spielbeginn</a></li>
+            <li><a href="#ch05">Dein Zug – Schritt für Schritt</a></li>
+            <li><a href="#ch06">Energie &amp; Entwicklung</a></li>
+            <li><a href="#ch07">Kampf &amp; Schaden</a></li>
+            <li><a href="#ch08">Besiegte Pokémon</a></li>
+            <li><a href="#ch09">Matrix-Suchprotokoll</a></li>
+            <li><a href="#ch10">Spielende</a></li>
+            <li><a href="#ch11">Strategietipps</a></li>
+            <li><a href="#ch12">Fan-Lore: Chroniken des Neon-Gitters</a></li>
+            <li><a href="#ch13">Design-Entscheidungen</a></li>
+        </ol>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 01 ══ -->
+    <div class="chapter" id="ch01">
+        <div class="chapter-header">
+            <div class="chapter-num">01</div>
+            <div class="chapter-title">Was ist Matrix Pokémon?</div>
+        </div>
+        <div class="info-card">
+            <p>
+                <strong>Matrix Pokémon</strong> ist ein selbst entwickeltes Taktik-Kartenspiel, das zwei legendäre Welten vereint:
+                das <strong>Pokémon-Sammelkartenspiel</strong> und <strong>Schach</strong>.
+                Statt Karten auf die Hand zu ziehen, legst du dein gesamtes Deck verdeckt auf den Tisch als Raster —
+                die <strong>Matrix</strong>. Das Spielfeld IST dein Deck.
+            </p>
+            <p>
+                Jede Karte in der Matrix ist ein Geheimnis, bis sie aufgedeckt wird. Deine Pokémon bahnen sich ihren Weg durch
+                aufgedeckte Pfade, sammeln Energie, entwickeln sich und kämpfen — alles auf einem einzigen lebendigen Spielfeld.
+            </p>
+
+            <div class="official-note">
+                <strong>Standardregeln gelten weiterhin:</strong> Sofern diese Anleitung nichts anderes festlegt, bleiben alle
+                normalen Pokémon-SKS-Regeln (Energiekosten, Schwäche/Resistenz, Fähigkeiten, Sonderzustände)
+                während des Kampfes aktiv.
+            </div>
+
+            <hr class="divider">
+
+            <h3>Der entscheidende Unterschied: Position ist Macht</h3>
+            <p>
+                Das macht Matrix Pokémon einzigartig. Die <strong>Reihe</strong>, in der das verteidigende Pokémon steht,
+                bestimmt, wie viel Schaden es erhält. Je näher der Verteidiger an der Front (Reihe 1) ist,
+                desto mehr Schaden kassiert er. Je weiter hinten er steht (Reihe 6), desto besser ist er geschützt.
+            </p>
+
+            <div class="photo-block single">
+                <div class="photo-frame">
+                    <img src="selected_fotos/07_game_progress.JPG" alt="Ein laufendes Spiel Matrix Pokémon">
+                    <div class="photo-caption">// ECHTES SPIEL // Eine aktive Matrix in der Spielmitte — Pfade geöffnet, Pokémon auf dem Vormarsch.</div>
+                </div>
+            </div>
+
+            <div class="concept-wrap">
+                <img src="concept_art.png" alt="Matrix Pokémon Konzeptzeichnung">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 02 ══ -->
+    <div class="chapter" id="ch02">
+        <div class="chapter-header">
+            <div class="chapter-num">02</div>
+            <div class="chapter-title">Was du brauchst</div>
+        </div>
+        <div class="info-card">
+            <p>Jeder Spieler bringt seine eigene Ausrüstung mit. Du brauchst genug Tischplatz für zwei vollständige Matrizen nebeneinander.</p>
+            <table>
+                <tr><th>Gegenstand</th><th>Anzahl</th><th>Hinweise</th></tr>
+                <tr><td>Pokémon-Deck</td><td><span class="highlight">60 Karten</span></td><td>Standard-SKS-Deck, jede Edition</td></tr>
+                <tr><td>Münze</td><td>1</td><td>Markiert dein aktives Pokémon &amp; für Münzwürfe</td></tr>
+                <tr><td>Würfel</td><td>Mehrere</td><td>Schadenszähler: <strong>1 Auge = 10 KP Schaden</strong></td></tr>
+                <tr><td>Tischfläche</td><td>Groß</td><td>Zwei Matrizen (9×6 Karten) + Ablagestapel + Preiskartenstapel</td></tr>
+            </table>
+
+            <div class="photo-block single">
+                <div class="photo-frame">
+                    <img src="selected_fotos/01_setup_start_deck.JPG" alt="Ein 60-Karten-Pokémon-Deck bereit zum Aufbau">
+                    <div class="photo-caption">// SCHRITT 1 // Dein 60-Karten-Deck — gemischt und bereit, zur Matrix zu werden.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 03 ══ -->
+    <div class="chapter" id="ch03">
+        <div class="chapter-header">
+            <div class="chapter-num">03</div>
+            <div class="chapter-title">Spielaufbau</div>
+        </div>
+        <div class="info-card">
+            <p>Beide Spieler bauen ihre Matrix gleichzeitig auf. Befolge diese Schritte der Reihe nach.</p>
+
+            <div class="steps">
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Deck mischen</strong>
+                        <p>Mische dein 60-Karten-Deck gründlich. Biete dem Gegner an, abzuheben.</p>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>6 Preiskarten beiseitelegen</strong>
+                        <p>Nimm 6 Karten vom oberen Ende deines Decks und lege sie verdeckt <strong>neben</strong> den Tisch.
+                        Nicht reinschauen! Das sind deine <strong>Preiskarten</strong> — eine wird gewonnen, jedes Mal wenn du ein Pokémon des Gegners besiegt.</p>
+                        <div class="prize-row">
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="photo-block single">
+                <div class="photo-frame">
+                    <img src="selected_fotos/02_setup_6price_cards.JPG" alt="6 Preiskarten verdeckt neben der Matrix">
+                    <div class="photo-caption">// SCHRITT 2 // Sechs Preiskarten — verdeckt neben dem Tisch. Nicht schauen!</div>
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="step-box">
+                    <div class="step-num" style="counter-increment: step 2;">3</div>
+                    <div class="step-content">
+                        <strong>Die Matrix auslegen</strong>
+                        <p>Lege die verbleibenden <strong>54 Karten</strong> in einem <strong>6 Reihen × 9 Spalten</strong>-Raster aus, alle verdeckt.
+                        Das ist dein Spielfeld — die <strong>Matrix</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="font-family:'Share Tech Mono', monospace; font-size:0.85rem; color: var(--matrix-green); margin-bottom: 4px; text-align: center;">
+                ↑ ↑ ↑ &nbsp;&nbsp; GEGNERISCHE SEITE &nbsp;&nbsp; ↑ ↑ ↑
+            </div>
+            <div class="matrix-viz" id="setupMatrix"></div>
+            <div style="font-family:'Share Tech Mono', monospace; font-size:0.85rem; color: var(--matrix-green); margin-top: 4px; text-align: center;">
+                ↓ ↓ ↓ &nbsp;&nbsp; DEINE SEITE &nbsp;&nbsp; ↓ ↓ ↓
+            </div>
+            <script>
+                const m = document.getElementById('setupMatrix');
+                for(let i = 0; i < 54; i++) {
+                    const d = document.createElement('div');
+                    d.className = 'matrix-cell';
+                    m.appendChild(d);
+                }
+            </script>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+                <div style="text-align:center; font-family:'Share Tech Mono', monospace; font-size:0.82rem; color: rgba(255,255,255,0.6);">
+                    <span style="display:inline-block;width:16px;height:16px;background:var(--pk-blue);border-radius:3px;margin-right:6px;vertical-align:middle;"></span>Verdeckte Karte
+                </div>
+                <div style="text-align:center; font-family:'Share Tech Mono', monospace; font-size:0.82rem; color: rgba(255,255,255,0.6);">
+                    <strong style="color:var(--pk-yellow);">Reihe 1</strong> = Frontlinie (nah am Gegner)<br>
+                    <strong style="color:var(--matrix-green);">Reihe 6</strong> = Hintere Reihe (nah an dir)
+                </div>
+            </div>
+
+            <div class="photo-block dual">
+                <div class="photo-frame">
+                    <img src="selected_fotos/03_setup_matrix_6x9.JPG" alt="Matrix als 6x9-Raster ausgelegt">
+                    <div class="photo-caption">// SCHRITT 3 // 54 Karten im 6×9-Raster — alle verdeckt. Die Matrix ist initialisiert.</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="selected_fotos/03_setup_2nd_perspective.JPG" alt="Alternative Perspektive auf den Matrix-Aufbau">
+                    <div class="photo-caption">// SCHRITT 3 // Zweite Perspektive — man sieht, wie viel Tischfläche die Matrix benötigt.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tipp: Reihennummerierung</strong>
+                Reihe 1 ist deine <em>Frontlinie</em> — am nächsten zum Gegner, maximale Angriffskraft, kein Schutz.<br>
+                Reihe 6 ist deine <em>hintere Reihe</em> — am nächsten zu dir, gut geschützt, aber Angriffe von hier sind schwächer.
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 04 ══ -->
+    <div class="chapter" id="ch04">
+        <div class="chapter-header">
+            <div class="chapter-num">04</div>
+            <div class="chapter-title">Spielbeginn</div>
+        </div>
+        <div class="info-card">
+            <h3>Schritt 4 – Start-Aufdeckung</h3>
+            <p>Jeder Spieler deckt <strong>7 Karten</strong> seiner Wahl aus der Matrix auf — du wählst, welche du umdrehst.</p>
+            <div class="warning-box">
+                <strong>⚠️ Wichtig:</strong> Unter deinen 7 aufgedeckten Karten muss sich mindestens <strong>1 Basis-Pokémon</strong> befinden!
+                <br>Falls kein Basis-Pokémon dabei ist, drehe alle Karten wieder um, mische die Matrix neu und decke erneut auf.
+            </div>
+            <div class="tip-box">
+                <strong>💡 Schlau aufdecken:</strong> Decke Karten auf, die nebeneinander liegen, damit dein Pokémon sofort Energiekarten erreichen kann, ohne über verdeckte Wände springen zu müssen.
+            </div>
+
+            <div class="photo-block triple">
+                <div class="photo-frame">
+                    <img src="selected_fotos/04_setup_turn_7cards_faceup.JPG" alt="Spieler deckt 7 Karten auf">
+                    <div class="photo-caption">// SCHRITT 4 // 7 Startkarten aufdecken — jeder Spieler wählt selbst, welche er umdreht.</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="selected_fotos/04_setup_turn_7cards_faceup_2nd_perspective.JPG" alt="Zweite Perspektive der 7-Karten-Aufdeckung">
+                    <div class="photo-caption">// SCHRITT 4 // Perspektive 2 — aufgedeckte Karten öffnen die ersten Bewegungspfade.</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="selected_fotos/04_setup_turn_7cards_faceup_3rd_perspective.JPG" alt="Dritte Perspektive der 7-Karten-Aufdeckung">
+                    <div class="photo-caption">// SCHRITT 4 // Perspektive 3 — Pokémon- und Energiekarten sind unter den aufgedeckten.</div>
+                </div>
+            </div>
+
+            <h3>Schritt 5 – Aktives Pokémon bestimmen</h3>
+            <p>Lege eine <strong>Münze</strong> auf eines deiner aufgedeckten Basis-Pokémon. Diese Münze markiert dein <strong>aktives Pokémon</strong> — das Pokémon, das angreift und angegriffen wird.</p>
+
+            <div class="photo-block single">
+                <div class="photo-frame">
+                    <img src="selected_fotos/05_setup_active_pokemon.JPG" alt="Münze auf aktivem Pokémon">
+                    <div class="photo-caption">// SCHRITT 5 // Eine Münze markiert das aktive Pokémon auf der Matrix. Einfach und klar!</div>
+                </div>
+            </div>
+
+            <h3>Schritt 6 – Wer fängt an?</h3>
+            <p>Werft eine Münze. <strong>Kopf</strong> = Spieler 1 und fängt an.</p>
+            <div class="info-box">
+                <strong>ℹ️ Ausgleichsregel:</strong> Spieler 1 deckt in seinem allerersten Zug <strong>0 Karten</strong> auf.
+                Spieler 2 deckt im ersten Zug <strong>1 Karte</strong> auf. Ab Zug 2 decken beide Spieler <strong>1 Karte</strong> pro Zug auf.
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 05 ══ -->
+    <div class="chapter" id="ch05">
+        <div class="chapter-header">
+            <div class="chapter-num">05</div>
+            <div class="chapter-title">Dein Zug – Schritt für Schritt</div>
+        </div>
+        <div class="info-card">
+            <p>Die Spieler wechseln sich ab. Jeder Zug hat <strong>4 Phasen</strong>, immer in dieser Reihenfolge:</p>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 1.5rem 0;">
+                <div style="background:rgba(0,255,65,0.1); border:2px solid var(--matrix-green); border-radius:12px; padding:1rem; text-align:center;">
+                    <div style="font-family:'Bangers',cursive; font-size:2rem; color:var(--pk-yellow);">1</div>
+                    <div style="font-family:'Kanit',sans-serif; font-size:1.1rem;">Karten aufdecken</div>
+                    <div style="font-size:0.85rem; color:rgba(255,255,255,0.6); margin-top:4px;">Ersatz für die Zugphase</div>
+                </div>
+                <div style="background:rgba(42,117,187,0.15); border:2px solid var(--pk-blue); border-radius:12px; padding:1rem; text-align:center;">
+                    <div style="font-family:'Bangers',cursive; font-size:2rem; color:var(--pk-yellow);">2</div>
+                    <div style="font-family:'Kanit',sans-serif; font-size:1.1rem;">Pokémon bewegen</div>
+                    <div style="font-size:0.85rem; color:rgba(255,255,255,0.6); margin-top:4px;">Aktives zuerst, dann andere</div>
+                </div>
+                <div style="background:rgba(238,21,21,0.1); border:2px solid var(--pk-red); border-radius:12px; padding:1rem; text-align:center;">
+                    <div style="font-family:'Bangers',cursive; font-size:2rem; color:var(--pk-yellow);">3</div>
+                    <div style="font-family:'Kanit',sans-serif; font-size:1.1rem;">Trainer spielen</div>
+                    <div style="font-size:0.85rem; color:rgba(255,255,255,0.6); margin-top:4px;">Items &amp; Unterstützer</div>
+                </div>
+                <div style="background:rgba(255,203,5,0.1); border:2px solid var(--pk-yellow); border-radius:12px; padding:1rem; text-align:center;">
+                    <div style="font-family:'Bangers',cursive; font-size:2rem; color:var(--pk-yellow);">4</div>
+                    <div style="font-family:'Kanit',sans-serif; font-size:1.1rem;">Angreifen</div>
+                    <div style="font-size:0.85rem; color:rgba(255,255,255,0.6); margin-top:4px;">Aktives Pokémon greift an</div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <h3>Phase 1: Karten aufdecken</h3>
+            <p>Statt Karten auf die Hand zu ziehen, <strong>deckst du Karten</strong> aus deiner Matrix auf. Jede aufgedeckte Karte öffnet einen möglichen Pfad für deine Pokémon.</p>
+            <table>
+                <tr><th>Situation</th><th>Aufzudeckende Karten</th></tr>
+                <tr><td>Spieler 1, Zug 1</td><td><span class="hl-red">0 Karten</span> — gleicht den Erstvorteil aus</td></tr>
+                <tr><td>Spieler 2, Zug 1</td><td><span class="highlight">1 Karte</span></td></tr>
+                <tr><td><strong>Alle weiteren Züge</strong></td><td><span class="hl-green">1 Karte</span></td></tr>
+            </table>
+            <div class="tip-box">
+                <strong>💡 Denk nach, bevor du aufdeckst!</strong> Jede von dir aufgedeckte Karte öffnet auch Pfade für deinen Gegner.
+                Decke Karten auf, die deinen Pokémon helfen — aber kein neues Einfallstor in dein Territorium schaffen.
+            </div>
+
+            <hr class="divider">
+
+            <h3>Phase 2: Pokémon bewegen</h3>
+            <p>Deine Pokémon bewegen sich wie die <strong>Dame im Schach</strong>:</p>
+            <ul>
+                <li>Gerade (hoch / runter / links / rechts) <strong>oder</strong> diagonal</li>
+                <li>Maximal <strong>4 Felder pro Zug</strong> in eine Richtung — kein Richtungswechsel mittendrin!</li>
+                <li>Nur über <strong>aufgedeckte Karten</strong> bewegen — verdeckte Karten sind unüberwindliche Wände!</li>
+                <li>Jedes Pokémon darf sich <strong>höchstens einmal pro Zug</strong> bewegen</li>
+            </ul>
+
+            <p><strong>Bewegungsreihenfolge:</strong></p>
+            <ol>
+                <li>Zuerst dein <strong>aktives Pokémon</strong> bewegen (optional)</li>
+                <li>Dann alle <strong>anderen aufgedeckten Pokémon</strong> bewegen (je einmal, optional)</li>
+                <li>Pokémon dürfen auch stehen bleiben — Bewegung ist nie Pflicht</li>
+            </ol>
+
+            <div class="move-diagram">
+                <div>
+                    <div style="font-family:'Share Tech Mono',monospace; font-size:0.8rem; color:var(--matrix-green); margin-bottom:8px;">
+                        Bewegungsbeispiel — 9×6-Ausschnitt, Pokémon links-mitte
+                    </div>
+                    <div class="move-grid" id="moveGrid"></div>
+                </div>
+                <div class="move-legend">
+                    <h4>Legende</h4>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:var(--pk-red);"></div>
+                        <span>Dein Pokémon (P)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:rgba(0,255,65,0.25); border:1px solid var(--matrix-green);"></div>
+                        <span>Kann hierhin (aufgedeckt)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#1a1a1a; border:1px solid #333;"></div>
+                        <span>Blockierte Wand (verdeckt)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#111; border:1px solid #222;"></div>
+                        <span>Leeres aufgedecktes Feld</span>
+                    </div>
+                    <p style="margin-top:1rem; font-size:0.9rem; line-height:1.7;">
+                        Max. <strong>4 Felder</strong> in eine Richtung.
+                        Das Pokémon kann nicht über verdeckte (dunkle) Karten springen.
+                    </p>
+                </div>
+            </div>
+            <script>
+                const grid = document.getElementById('moveGrid');
+                const rows = 6, cols = 9, pkIdx = 2*9+3;
+                const walls = new Set([4,5,6,7,8, 13,14,15,16,17, 22,23,24,25,26, 31,32,33,34,35, 40,41,42,43,44, 49,50,51,52,53]);
+                for(let i = 0; i < rows*cols; i++) {
+                    const d = document.createElement('div');
+                    if(i === pkIdx) {
+                        d.className = 'move-cell m-pkm'; d.textContent = '🔥';
+                    } else if(walls.has(i)) {
+                        d.className = 'move-cell m-wall'; d.textContent = '?';
+                    } else {
+                        const pr = Math.floor(pkIdx/cols), pc = pkIdx%cols;
+                        const cr = Math.floor(i/cols), cc = i%cols;
+                        const dr = cr-pr, dc = cc-pc;
+                        let reachable = false;
+                        if((dr===0 || dc===0 || Math.abs(dr)===Math.abs(dc)) && Math.abs(dr)<=4 && Math.abs(dc)<=4 && (dr!==0||dc!==0)) {
+                            const steps = Math.max(Math.abs(dr),Math.abs(dc));
+                            const sr = dr/steps, sc = dc/steps;
+                            let blocked = false;
+                            for(let s=1; s<steps; s++) {
+                                const ni = (pr+s*sr)*cols+(pc+s*sc);
+                                if(walls.has(ni)) { blocked=true; break; }
+                            }
+                            if(!blocked) reachable = true;
+                        }
+                        d.className = reachable ? 'move-cell m-possible' : 'move-cell m-empty';
+                    }
+                    grid.appendChild(d);
+                }
+            </script>
+
+            <div class="photo-block single">
+                <div class="photo-frame">
+                    <img src="selected_fotos/06_move_pokemon.JPG" alt="Spieler bewegt ein Pokémon über die Matrix">
+                    <div class="photo-caption">// PHASE 2 // Ein Pokémon wird entlang eines aufgedeckten Pfades bewegt — Dame-Bewegung, max. 4 Felder.</div>
+                </div>
+            </div>
+
+            <h4>Wo darf ein Pokémon stehen bleiben?</h4>
+            <table>
+                <tr><th>Kartentyp</th><th>Erlaubt?</th><th>Effekt</th></tr>
+                <tr><td>Energiekarte</td><td><span class="hl-green">✅ Ja</span></td><td>1 Energie an das Pokémon anlegen</td></tr>
+                <tr><td>Passende Entwicklung</td><td><span class="hl-green">✅ Ja</span></td><td>Pokémon entwickelt sich sofort</td></tr>
+                <tr><td>Leeres aufgedecktes Feld</td><td><span class="hl-green">✅ Ja</span></td><td>Pokémon bleibt einfach dort stehen</td></tr>
+                <tr><td>Trainerkarte</td><td><span class="highlight">⚠️ Deine Wahl</span></td><td>Pokémon geht DRÜBER; du entscheidest: jetzt spielen oder liegen lassen</td></tr>
+                <tr><td>Ein anderes Pokémon</td><td><span class="hl-red">❌ Nein</span></td><td>Zwei Pokémon können nie dasselbe Feld teilen</td></tr>
+            </table>
+
+            <div class="info-box">
+                <strong>ℹ️ Hinweis zu Entwicklungskarten:</strong> Stufe-1- und Stufe-2-Entwicklungskarten, die alleine auf der Matrix liegen, können sich nicht von selbst bewegen. Sie warten wie Gegenstände auf dem Feld, bis ein passendes Basis-Pokémon auf sie trifft.
+            </div>
+
+            <hr class="divider">
+
+            <h3>Phase 3: Trainer- und Itemkarten spielen</h3>
+            <table>
+                <tr><th>Kartentyp</th><th>Limit pro Zug</th><th>Beispiel</th></tr>
+                <tr><td>Itemkarte</td><td><span class="hl-green">Unbegrenzt</span></td><td>Trank, Superball, Sonderbonbon</td></tr>
+                <tr><td>Unterstützerkarte</td><td><span class="highlight">Einmal pro Zug</span></td><td>Forschung der Professorin, Marnie</td></tr>
+            </table>
+            <p>Gespielte Karten kommen offen auf den <strong>Ablagestapel</strong>.</p>
+
+            <hr class="divider">
+
+            <h3>Phase 4: Angreifen</h3>
+            <p>Dein aktives Pokémon darf <strong>einmal angreifen</strong> (optional). Die Schadensstärke hängt von der Position des Verteidigers ab — siehe Kampfkapitel.</p>
+            <div class="warning-box">
+                <strong>⚠️ Regel:</strong> Spieler 1 darf in seinem allerersten Zug <strong>nicht angreifen</strong>. Das gleicht den Erstvorteil aus.
+            </div>
+
+            <div class="photo-block dual">
+                <div class="photo-frame">
+                    <img src="selected_fotos/07_game_progress.JPG" alt="Spiel im Gange mit mehreren aufgedeckten Pokémon">
+                    <div class="photo-caption">// SPIELMITTE // Pokémon auf dem Weg zur Frontlinie, Energie wird gesammelt.</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="selected_fotos/07_game_progress_2nd_persepective.JPG" alt="Zweite Perspektive des Spielfortschritts">
+                    <div class="photo-caption">// SPIELMITTE // Zweite Perspektive — beide Matrizen mit aktiven Pfaden sichtbar.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 06 ══ -->
+    <div class="chapter" id="ch06">
+        <div class="chapter-header">
+            <div class="chapter-num">06</div>
+            <div class="chapter-title">Energie &amp; Entwicklung</div>
+        </div>
+        <div class="info-card">
+            <h3>⚡ Energie sammeln</h3>
+            <p>Energiekarten auf der Matrix funktionieren wie Gegenstände auf einem Spielbrett. Wenn ein Pokémon auf eine Energiekarte <strong>landet</strong>:</p>
+            <ul>
+                <li>Die Energiekarte kommt <strong>unter das Pokémon</strong> (angelegt, wie im normalen SKS)</li>
+                <li>Jedes Pokémon kann pro Zug höchstens <strong>1 Energiekarte</strong> einsammeln</li>
+                <li>Das gilt für <strong>alle deine Pokémon</strong> auf der Matrix — nicht nur das aktive!</li>
+            </ul>
+            <div class="tip-box">
+                <strong>💡 Aufladen in der Hinterreihe:</strong> Bewege deine nicht-aktiven Pokémon in Richtung Energiekarten, während dein aktives Pokémon kämpft. So kommt dein nächster Angreifer bereits kampfbereit an der Front an.
+            </div>
+
+            <hr class="divider">
+
+            <h3>🔼 Entwicklung</h3>
+            <p>Wenn dein Pokémon auf eine <strong>passende Entwicklungskarte</strong> landet:</p>
+            <ol>
+                <li>Lege die Entwicklungskarte <strong>auf das</strong> Basis-Pokémon</li>
+                <li>Das entwickelte Pokémon hat sofort seine neuen Attacken und maximale KP</li>
+                <li>Ein Pokémon kann sich <strong>einmal pro Zug</strong> entwickeln</li>
+            </ol>
+
+            <div class="info-box">
+                <strong>ℹ️ Entwicklungskarten auf der Matrix:</strong> Stufe-1- und Stufe-2-Entwicklungskarten liegen auf der Matrix wie wartende Gegenstände. Sie können sich nicht von selbst bewegen — ein Pokémon muss zu ihnen laufen, um sich zu entwickeln.
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 07 ══ -->
+    <div class="chapter" id="ch07">
+        <div class="chapter-header">
+            <div class="chapter-num">07</div>
+            <div class="chapter-title">Kampf &amp; Schaden</div>
+        </div>
+        <div class="info-card">
+            <h3>⚔️ Die Kernregel: Position ist Rüstung</h3>
+            <p>
+                Der Schaden, den ein verteidigendes Pokémon erhält, hängt von seiner <strong>eigenen Reihenposition</strong> ab.
+                Je weiter hinten der Verteidiger steht, desto mehr Schutz hat er — wie eine Rüstung, die stärker wird, je tiefer hinter der Front.
+            </p>
+        </div>
+
+        <div class="combat-console">
+            <div style="font-family:'Share Tech Mono',monospace; color: rgba(0,255,65,0.6); text-align:center; margin-bottom:1rem; font-size:0.85rem; letter-spacing:2px;">
+                // OFFIZIELLE SCHADENSFORMEL //
+            </div>
+            <div class="formula">
+                Effektiver Schaden = Basisschaden − (Reihe Verteidiger − 1) × 10
+            </div>
+            <p style="text-align:center; opacity:0.75; font-size:0.95rem; margin-top:0.5rem;">
+                ➜ Nur die <strong>Reihe des Verteidigers</strong> bestimmt den Schutz. Mindestschaden = 0.
+            </p>
+
+            <div class="row-chart">
+                <div class="row-item" style="background:rgba(238,21,21,0.3); border:2px solid var(--pk-red); color:white;">
+                    Reihe 1<br><span style="color:var(--pk-red); font-size:1.5rem;">−0</span><br>
+                    <span style="font-size:0.75rem; font-weight:400; opacity:0.7;">Voller Schaden!</span>
+                </div>
+                <div class="row-item" style="background:rgba(255,150,0,0.2); border:2px solid #f90; color:white;">
+                    Reihe 2<br><span style="color:#f90; font-size:1.5rem;">−10</span>
+                </div>
+                <div class="row-item" style="background:rgba(255,203,5,0.15); border:2px solid var(--pk-yellow); color:white;">
+                    Reihe 3<br><span style="color:var(--pk-yellow); font-size:1.5rem;">−20</span>
+                </div>
+                <div class="row-item" style="background:rgba(0,200,100,0.15); border:2px solid #0c6; color:white;">
+                    Reihe 4<br><span style="color:#0c6; font-size:1.5rem;">−30</span>
+                </div>
+                <div class="row-item" style="background:rgba(42,117,187,0.2); border:2px solid var(--pk-blue); color:white;">
+                    Reihe 5<br><span style="color:var(--pk-blue); font-size:1.5rem;">−40</span>
+                </div>
+                <div class="row-item" style="background:rgba(0,255,65,0.1); border:2px solid var(--matrix-green); color:white;">
+                    Reihe 6<br><span style="color:var(--matrix-green); font-size:1.5rem;">−50</span><br>
+                    <span style="font-size:0.75rem; font-weight:400; opacity:0.7;">Max. Schutz!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-top:2rem;">
+            <h3>Schadensbeispiele</h3>
+            <table>
+                <tr><th>Angreifer</th><th>Verteidiger</th><th>Basisschaden</th><th>Schutz</th><th>Effektiver Schaden</th></tr>
+                <tr><td>Beliebig</td><td>Reihe 1</td><td>60</td><td>−0</td><td><span class="hl-red">60</span></td></tr>
+                <tr><td>Beliebig</td><td>Reihe 2</td><td>60</td><td>−10</td><td><span class="highlight">50</span></td></tr>
+                <tr><td>Beliebig</td><td>Reihe 3</td><td>60</td><td>−20</td><td>40</td></tr>
+                <tr><td>Beliebig</td><td>Reihe 6</td><td>60</td><td>−50</td><td><span class="hl-green">10</span></td></tr>
+                <tr><td>Beliebig</td><td>Reihe 6</td><td>20</td><td>−50</td><td><span class="hl-green">0 (min)</span></td></tr>
+                <tr><td>Beliebig</td><td>Reihe 6</td><td>100</td><td>−50</td><td><span class="highlight">50</span></td></tr>
+            </table>
+
+            <div class="tip-box">
+                <strong>💡 Schaden ist NIE negativ!</strong> Wenn der Schutz größer ist als der Basisschaden, ist das Ergebnis einfach 0.
+            </div>
+
+            <h3>Schaden mit Würfeln nachverfolgen</h3>
+            <p>Lege Würfel <strong>auf</strong> die beschädigte Pokémon-Karte:</p>
+            <ul>
+                <li>🎲 <strong>1 Auge = 10 KP Schaden</strong></li>
+                <li>Beispiel: 50 effektiver Schaden → 5 Würfel auf das Pokémon legen</li>
+                <li>Wenn der Gesamtschaden die KP erreicht oder übersteigt → <strong>Kampfunfähig!</strong></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 08 ══ -->
+    <div class="chapter" id="ch08">
+        <div class="chapter-header">
+            <div class="chapter-num">08</div>
+            <div class="chapter-title">Besiegte Pokémon</div>
+        </div>
+        <div class="info-card">
+            <p>Ein Pokémon ist <strong>kampfunfähig</strong>, wenn sein gesamter angesammelter Schaden seine KP erreicht oder übersteigt.</p>
+
+            <h3>Was passiert, wenn ein Pokémon kampfunfähig wird</h3>
+            <div class="steps">
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Pokémon ablegen</strong>
+                        <p>Das kampfunfähige Pokémon und <strong>alle angelegen Energiekarten</strong> kommen auf den <strong>Ablagestapel des verlierenden Spielers</strong>.</p>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Gewinner nimmt eine Preiskarte</strong>
+                        <p>Der gewinnende Spieler nimmt <strong>1 Preiskarte</strong> von seinem verdeckten Preiskartenstapel und legt sie neben die Matrix (nicht zurück auf sie!).</p>
+                        <div class="prize-row">
+                            <div class="prize-card won">★</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                            <div class="prize-card">?</div>
+                        </div>
+                        <div class="info-box" style="margin-top:0.8rem;">
+                            <strong>ℹ️ Pokémon V, ex, GX:</strong> Geben <strong>2 Preiskarten</strong> wenn kampfunfähig!
+                        </div>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Neues aktives Pokémon wählen</strong>
+                        <p>Der verlierende Spieler wählt sofort ein neues <strong>aktives Pokémon</strong> aus seinen aufgedeckten Basis-Pokémon auf der Matrix.</p>
+                        <div class="warning-box">
+                            <strong>⚠️ Kein aufgedecktes Basis-Pokémon?</strong> Decke weiter Karten aus deiner Matrix auf, bis du eines findest.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="photo-block dual">
+                <div class="photo-frame">
+                    <img src="selected_fotos/08_other_game.JPG" alt="Ein weiteres Spiel Matrix Pokémon im Gange">
+                    <div class="photo-caption">// SPIEL IM GANGE // Spielmitte mit gewonnenen Preiskarten neben der Matrix.</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="selected_fotos/09_other_game.JPG" alt="Späte Spielphase bei Matrix Pokémon">
+                    <div class="photo-caption">// SPIEL IM GANGE // Späte Phase — weniger verdeckte Karten, mehr offene Pfade.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 09 ══ -->
+    <div class="chapter" id="ch09">
+        <div class="chapter-header">
+            <div class="chapter-num">09</div>
+            <div class="chapter-title">Matrix-Suchprotokoll</div>
+        </div>
+        <div class="info-card">
+            <p>Wenn eine Trainerkarte (z. B. <em>Superball</em>, <em>Schnellball</em>) erlaubt, im Deck zu suchen, ist deine „Bibliothek" die Matrix selbst. Verwende das <strong>Schlangenmuster</strong>:</p>
+
+            <div class="steps">
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Oben links beginnen</strong>
+                        <p>Starte an Position [Reihe 1, Spalte 1] — obere linke Ecke deiner Matrix.</p>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Im Schlangenmuster scannen</strong>
+                        <p>Karten Reihe für Reihe aufdecken und anschauen: ungerade Reihen von links nach rechts, gerade Reihen von rechts nach links.</p>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Stopp wenn gefunden</strong>
+                        <p>Sobald du die gesuchte Karte findest — Stopp! Keine weiteren Karten aufdecken.</p>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Neu mischen &amp; neu auslegen</strong>
+                        <p>Alle anderen aufgedeckten Karten gut mischen, dann verdeckt wieder von oben links im Schlangenmuster auslegen.</p>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-num"></div>
+                    <div class="step-content">
+                        <strong>Zielkarte platzieren</strong>
+                        <p>Die gefundene Karte offen auf einem freien Feld deiner Wahl auf der Matrix platzieren oder sofort einsetzen.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="snake-demo">
+SCHLANGEN-SCAN-MUSTER:
+Reihe 1 →→→→→→→→→ (links nach rechts)
+Reihe 2 ←←←←←←←←← (rechts nach links)
+Reihe 3 →→→→→→→→→ (links nach rechts)
+...weitermachen bis Zielkarte gefunden...
+            </div>
+
+            <div class="code-block">SCAN_SEQUENZ: [0,0]→[0,8] // [1,8]→[1,0] // [2,0]→[2,8] // ...</div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 10 ══ -->
+    <div class="chapter" id="ch10">
+        <div class="chapter-header">
+            <div class="chapter-num">10</div>
+            <div class="chapter-title">Spielende</div>
+        </div>
+        <div class="info-card">
+            <p>Das Spiel endet <strong>sofort</strong>, wenn eine dieser Bedingungen erfüllt ist:</p>
+            <table>
+                <tr><th>Bedingung</th><th>Ergebnis</th></tr>
+                <tr>
+                    <td>Ein Spieler nimmt seine <strong>6. Preiskarte</strong></td>
+                    <td><span class="hl-green">🏆 Dieser Spieler GEWINNT!</span></td>
+                </tr>
+                <tr>
+                    <td>Ein Spieler hat <strong>keine Pokémon mehr</strong> auf der Matrix (alle besiegt, keine Ersatzmöglichkeit)</td>
+                    <td><span class="hl-red">Dieser Spieler VERLIERT</span></td>
+                </tr>
+            </table>
+
+            <div class="tip-box">
+                <strong>💡 Preisstrategie:</strong> Konzentriere dich darauf, das aktive Pokémon deines Gegners zu besiegen.
+                Falls der Gegner Pokémon V/ex/GX spielt, besiege diese zuerst — jedes gibt 2 Preiskarten!
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 11 ══ -->
+    <div class="chapter" id="ch11">
+        <div class="chapter-header">
+            <div class="chapter-num">11</div>
+            <div class="chapter-title">Strategietipps</div>
+        </div>
+        <div class="strategy-grid">
+            <div class="strategy-card">
+                <h4>🛡️ Defensive Verankerung</h4>
+                <p>Halte Ersatzangreifer in Reihe 6, während sie aufladen. Ein Pokémon in Reihe 6 ist vor 50 Schaden geschützt — dein Gegner kommt kaum ran.</p>
+            </div>
+            <div class="strategy-card">
+                <h4>⚡ Front = Maximaler Schaden</h4>
+                <p>Bewege voll aufgeladene Pokémon zu Reihe 1, um Angriffe ohne Abzug zu landen. Reihe 1 ist auch für DEIN Pokémon gefährlich, aber der Schaden ist verheerend.</p>
+            </div>
+            <div class="strategy-card">
+                <h4>🗺️ Pfade freischaufeln</h4>
+                <p>Decke bevorzugt Karten auf, die diagonale Korridore schaffen. Diagonalbewegung ist der schnellste Weg — und für den Gegner am schwersten zu blockieren.</p>
+            </div>
+            <div class="strategy-card">
+                <h4>⚡ Energierouten planen</h4>
+                <p>Bewege Pokémon so, dass sie auf dem Weg zur Front Energiekarten aufsammeln. Effiziente Routen bedeuten, dass dein Angreifer in Reihe 1 bereits kampfbereit ankommt.</p>
+            </div>
+            <div class="strategy-card">
+                <h4>🧬 Entwicklungen sichern</h4>
+                <p>Eile zu Entwicklungskarten, bevor dein Gegner den Weg versperrt. Ein Stufe-2-Pokémon verändert das Spiel — komm rechtzeitig hin.</p>
+            </div>
+            <div class="strategy-card">
+                <h4>🎯 Viele Basis-Pokémon</h4>
+                <p>Spiele viele Basis-Pokémon im Deck. Du brauchst sie für die Start-Aufdeckung und als Ersatz-Aktiv-Pokémon, wenn das aktuelle besiegt wurde.</p>
+            </div>
+            <div class="strategy-card">
+                <h4>🧠 4-Felder-Planung</h4>
+                <p>Denk daran: Kein Pokémon kann das ganze Feld in einem Zug überqueren. Plane 2–3 Züge im Voraus — schritt für Schritt vorrücken und dabei Energie sammeln.</p>
+            </div>
+            <div class="strategy-card">
+                <h4>🏆 Preiskartenplatzierung</h4>
+                <p>Lege gewonnene Preiskarten offen in die Mitte deiner Matrix. Sie zählen als aufgedeckte Karten und erweitern dein Bewegungsnetz sofort.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 12 ══ -->
+    <div class="chapter" id="ch12">
+        <div class="chapter-header">
+            <div class="chapter-num">12</div>
+            <div class="chapter-title">Fan-Lore: Chroniken des Neon-Gitters</div>
+        </div>
+        <div class="lore-section">
+            <h3>⚡ Episode 1: Initialisierung des Codes</h3>
+            <p>
+                Die Luft in der <strong>Neon-Arena</strong> summte vor Statik und digitalem Regen. Im Zentrum der Arena stand der
+                <strong>Matrix-Tisch</strong>, ein schimmerndes 9×6-Gitter aus vierundfünfzig verdeckten Karten. Sich gegenüber standen
+                zwei Trainer: <strong>Elias</strong>, ein erfahrener Veteran des Gitters, und <strong>Nova</strong>, eine Technik-Spezialistin,
+                deren Augen bereits den „Code" der verborgenen Karten scannten.
+            </p>
+            <blockquote>„Initialisiere die Matrix," befahl Elias.</blockquote>
+            <p>
+                Vierundfünfzig Karten schlugen mit einem synchronisierten Klicken auf den Tisch. Sofort begannen sieben Karten auf
+                jeder Seite zu leuchten und sich umzudrehen — die <strong>Start-Aufdeckung</strong>. Elias' Augen weiteten sich,
+                als sein <strong>Pikachu</strong> in Reihe 6, seiner Heimatbasis, materialisierte. Auf der gegenüberliegenden Seite
+                tauchte Novas <strong>Bisasam</strong> aus dem digitalen Nebel auf, seine Ranken knisterten vor grüner Energie.
+            </p>
+
+            <hr class="divider">
+
+            <h3>📋 Zug 1: Elias (Die Vorhut)</h3>
+            <p>„Mein Zug," sagte Elias. Er zog keine Karte — stattdessen tippte er eine verdeckte Karte in der Mitte des Gitters an. Sie drehte sich um und enthüllte eine <strong>Elektro-Energie</strong>.</p>
+            <div class="code-block">[SYSTEM: AUFDECK-PHASE ABGESCHLOSSEN // 1 KARTE INITIALISIERT]
+[OBJEKT_ERKANNT: ELEKTRO_ENERGIE // KOORDINATEN: [4,2]]</div>
+            <p>
+                „Pikachu, rück vor!" Das Maus-Pokémon rannte nicht — es <em>gleitete</em>. Dem <strong>Damen-Pfad</strong> folgend, schob
+                es sich diagonal über aufgedeckte Karten und landete genau auf der Elektro-Energie. Ein digitaler Gong erklang.
+            </p>
+            <div class="code-block">[SYSTEM: ENERGIE ANGELEGT // PIKACHU POWER-LEVEL STEIGT]</div>
+            <p>„Pikachu, vor auf Reihe 2! Donnerschock! Basisschaden 50!"</p>
+            <p>Nova lächelte. „Vergiss die <strong>Abstands-Regel</strong> nicht, Elias. Mein Bisasam ist in Reihe 3 — das macht 20 Schutz. Dein Donnerschock landet für 30 effektiven Schaden."</p>
+
+            <blockquote>
+                <strong>Taktik-Kalkulation:</strong><br>
+                Basisschaden: 50<br>
+                Verteidiger (Reihe 3): −20<br>
+                <strong>Effektiver Schaden: 30</strong>
+            </blockquote>
+
+            <hr class="divider">
+
+            <h3>⚔️ Der finale Schlag</h3>
+            <p>
+                Elias drängte weiter vor. „Pikachu, vor auf Reihe 1 — die Frontlinie!" Pikachu glitt in die gefährlichste Reihe des Feldes.
+                Und landete direkt auf einer <strong>Raichu</strong>-Karte.
+            </p>
+            <div class="code-block">[SYSTEM: SOFORT-ENTWICKLUNG ERKANNT]
+[RAICHU_v2.0 INITIALISIERT // KP: 120 // STATUS: BEREIT]</div>
+            <p>
+                „Raichu, benutze <strong>Donnerblitz!</strong> Basis 100!" Elias war in Reihe 1 (−0). Novas Bisasam war in Reihe 6 (−50).
+            </p>
+            <div class="code-block">[FINALER_SCHADEN: 50 // ZIEL: BISASAM]</div>
+            <p>Der gewaltige Blitz riss durch das Gitter. Novas Bisasam zerfiel in grüne Pixel.</p>
+
+            <hr class="divider">
+
+            <h3>🏆 Sieg-Zustand</h3>
+            <div class="code-block">[SYSTEM: KAMPFUNFÄHIG // NOVA BESIEGT]
+[BELOHNUNG: 1 PREISKARTE NEHMEN]</div>
+            <p>
+                Elias griff zur Seite und nahm seine erste <strong>Preiskarte</strong>. Er legte sie neben seine Matrix.
+                „Eine Preiskarte weg, fünf fehlen noch," sagte er, während sein Raichu stolz an der Frontlinie stand.
+                „Das Gitter ist offen, Nova. Was ist dein nächster Zug?"
+            </p>
+            <blockquote>Nova tippte eine verdeckte Karte nahe ihrer Basis an. „Initialisiere Backup-Code. Das Spiel hat gerade erst begonnen."</blockquote>
+
+            <p style="text-align:right; color: rgba(255,255,255,0.4); font-style:italic; font-size:0.85rem;">
+                — Matrix Pokémon Fan-Projekt | Strategie ist der einzige Weg.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ CHAPTER 13 ══ -->
+    <div class="chapter" id="ch13">
+        <div class="chapter-header">
+            <div class="chapter-num">13</div>
+            <div class="chapter-title">Design-Entscheidungen</div>
+        </div>
+        <div class="info-card">
+            <p>Diese Entscheidungen dokumentieren, warum die Regeln so funktionieren, wie sie es tun.</p>
+
+            <div class="decision-card">
+                <div class="decision-id">// DE-101</div>
+                <h4>Vereinfachte Schadensformel</h4>
+                <p><span class="tag-problem">Problem:</span> Die ursprüngliche Formel (Abzug für BEIDE Pokémon-Positionen) erzeugte 0-Schaden-Situationen, die für junge Spieler frustrierend sind.</p>
+                <p><span class="tag-decision">Entscheidung:</span> Nur die <strong>Reihe des Verteidigers</strong> bestimmt den Schutz.</p>
+                <p><em>Begründung: Wirkt wie „Rüstung" — leicht zu erklären, und es gibt immer eine Chance, etwas Schaden anzurichten.</em></p>
+            </div>
+
+            <div class="decision-card">
+                <div class="decision-id">// DE-102</div>
+                <h4>Maximale Bewegung von 4 Feldern</h4>
+                <p><span class="tag-problem">Problem:</span> Unbegrenzte Damenbewegung erlaubt es, in einem Zug von Reihe 6 zu Reihe 1 zu springen — Positionsstrategie wird bedeutungslos.</p>
+                <p><span class="tag-decision">Entscheidung:</span> Maximal <strong>4 Felder</strong> pro Zug.</p>
+                <p><em>Begründung: Erzwingt schrittweises Vorrücken; macht Positionierung bedeutsam.</em></p>
+            </div>
+
+            <div class="decision-card">
+                <div class="decision-id">// DE-103</div>
+                <h4>Spieler 1 greift im ersten Zug nicht an</h4>
+                <p><span class="tag-problem">Problem:</span> Spieler 1 hat bereits den Vorteil, zuerst zu spielen.</p>
+                <p><span class="tag-decision">Entscheidung:</span> Spieler 1 darf im allerersten Zug <strong>nicht angreifen</strong>.</p>
+                <p><em>Begründung: Standard-Pokémon-Regel; gleicht den Erstvorteil aus.</em></p>
+            </div>
+
+            <div class="decision-card">
+                <div class="decision-id">// DE-104</div>
+                <h4>Trainerkarten – Spieler entscheidet</h4>
+                <p><span class="tag-problem">Problem:</span> Automatisches Auslösen einer Trainerkarte beim Drüberziehen erzeugt Grenzfälle (z. B. Unterstützer bereits gespielt).</p>
+                <p><span class="tag-decision">Entscheidung:</span> Wenn ein Pokémon über eine Trainerkarte zieht, darf der <strong>Spieler wählen</strong>: jetzt spielen ODER offen auf der Matrix liegen lassen.</p>
+                <p><em>Begründung: Gibt dem Spieler Kontrolle; vermeidet mehrdeutige Situationen.</em></p>
+            </div>
+
+            <div class="decision-card">
+                <div class="decision-id">// DE-105</div>
+                <h4>Preiskarten kommen neben die Matrix</h4>
+                <p><span class="tag-problem">Problem:</span> Gewonnene Preiskarten zurück auf die Matrix zu legen ist verwirrend.</p>
+                <p><span class="tag-decision">Entscheidung:</span> Gewonnene Preiskarten kommen auf einen <strong>eigenen Siegerstapel</strong> neben der Matrix.</p>
+                <p><em>Begründung: Übersichtlicher; keine Verwirrung, falls eine Preiskarte selbst ein Pokémon ist.</em></p>
+            </div>
+
+            <div class="decision-card">
+                <div class="decision-id">// DE-106</div>
+                <h4>Reihen-Nummerierung</h4>
+                <p><span class="tag-decision">Entscheidung:</span> Reihe 1 = Frontlinie = nah am Gegner = kein Schutz. Reihe 6 = Hintere Reihe = nah an dir = voller Schutz.</p>
+                <p><em>Begründung: Vorrücken = mehr Schaden; zurückgehen = mehr Schutz. Intuitiv für alle Altersgruppen.</em></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ─── KURZREFERENZ-KARTE ────────────────────────────── -->
+    <div class="chapter">
+        <div class="chapter-header">
+            <div class="chapter-num" style="background:var(--matrix-green); color:black;">KR</div>
+            <div class="chapter-title">Kurzreferenz-Karte</div>
+        </div>
+        <div class="info-card">
+            <div class="qr-grid">
+                <div class="qr-box">
+                    <div class="qr-icon">🃏</div>
+                    <div class="qr-label">Deck</div>
+                    <div class="qr-val">60 Karten<br>6 Preis + 54 Matrix</div>
+                </div>
+                <div class="qr-box">
+                    <div class="qr-icon">👁️</div>
+                    <div class="qr-label">Aufdecken</div>
+                    <div class="qr-val">Zug 1: 0 (S1) / 1 (S2)<br>Alle weiteren: 1 Karte</div>
+                </div>
+                <div class="qr-box">
+                    <div class="qr-icon">♟️</div>
+                    <div class="qr-label">Bewegung</div>
+                    <div class="qr-val">Damen-Stil<br>Max. 4 Felder</div>
+                </div>
+                <div class="qr-box">
+                    <div class="qr-icon">⚔️</div>
+                    <div class="qr-label">Schaden</div>
+                    <div class="qr-val">Basis − (Vert.Reihe−1)×10<br>Min. 0</div>
+                </div>
+                <div class="qr-box">
+                    <div class="qr-icon">🏆</div>
+                    <div class="qr-label">Siegbedingung</div>
+                    <div class="qr-val">6 Preiskarten<br>ODER letztes Pokémon übrig</div>
+                </div>
+                <div class="qr-box">
+                    <div class="qr-icon">🎲</div>
+                    <div class="qr-label">Würfel</div>
+                    <div class="qr-val">1 Auge = 10 KP Schaden</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /container -->
+
+<footer>
+    <div class="footer-logo">MATRIX POKÉMON</div>
+    <p>ERWEITERTE EDITION // STRATEGIE-HANDBUCH &amp; BILDANLEITUNG // v1.0 // 2026</p>
+    <p style="margin-top:1rem;">Fan-Projekt — Creative Commons CC BY-NC-SA 4.0 — Kein kommerzieller Einsatz beabsichtigt</p>
+    <p style="color:#333; font-size:0.8rem; margin-top:1rem;">
+        Pokémon und alle verwandten Namen sind Marken von Nintendo / Creatures Inc. / GAME FREAK inc.
+        Dieses Projekt verfolgt keine kommerziellen Interessen.
+    </p>
+</footer>
+
+</body>
+</html>
