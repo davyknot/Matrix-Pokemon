@@ -5,6 +5,8 @@
 📜 **License:** Creative Commons CC BY-NC-SA 4.0 | Fan project – no commercial interests
 ⚠️ *Pokémon and all related names are trademarks of Nintendo / Creatures Inc. / GAME FREAK inc.*
 
+#### Contributions: MS.; WOS.; VLS. and SMSS. were playing MatrixPokémon. MS. and WOS. were debugging game system, and created images and notes of this version01.
+
 Checkout the websites:
 Matrix Pokémon - Extended Edition Strategy Guide English
 https://matrix-pokemon-english.netlify.app/
